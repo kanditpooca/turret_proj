@@ -5,6 +5,8 @@ import numpy as np
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
+import serial
+import time
 
 MARGIN = 10  # pixels
 ROW_SIZE = 10  # pixels
@@ -13,6 +15,8 @@ FONT_SIZE = 1
 FONT_THICKNESS = 1
 TEXT_COLOR = (255, 0, 0)  # red
 
+arduino = serial.Serial(port='COM3', baudrate=9600, timeout=1)
+time.sleep(2) # Wait for Arduino to initialize
 
 def _normalized_to_pixel_coordinates(
     normalized_x: float, normalized_y: float, image_width: int,
@@ -79,6 +83,8 @@ def visualize(
 
     cv2.putText(annotated_image, f"X_error: {X_error} px", (width - 300, height - 100), FONT, 0.8, [0,255,0], 2)
     cv2.putText(annotated_image, f"Y_error: {Y_error} px", (width - 300, height - 50), FONT, 0.8, [0,255,0], 2)
+    serial_data = f"X_error:{X_error},Y_error:{Y_error}\n"
+    arduino.write(serial_data.encode())  # Send as bytes
 
     # Draw label and score
     category = detection.categories[0]
@@ -101,12 +107,12 @@ def show_referenceAxis(image):
   cv2.line(image, (width//2, 0), (width//2, height), (0,255,0),1)
 
 # Create an FaceDetector object.
-base_options = python.BaseOptions(model_asset_path='blaze_face_short_range.tflite')
+base_options = python.BaseOptions(model_asset_path='turret_proj/blaze_face_short_range.tflite')
 options = vision.FaceDetectorOptions(base_options=base_options)
 detector = vision.FaceDetector.create_from_options(options)
 
 # Get the frames from camera
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 while True:
     ret, frame = cap.read()
 
