@@ -1,10 +1,13 @@
 #include <Servo.h>
 
-int pos = 0;
-int pos_min = 0;
-int pos_max = 90;
-int speed = 1;
+int y_pos = 0;
+int y_pos_min = 0;
+int y_pos_max = 90;
+int y_speed = 1;
 Servo myservo;
+
+int x_pos = 0;
+
 int x_error, y_error;
 
 void setup() {
@@ -13,8 +16,8 @@ void setup() {
   myservo.attach(9); // attaches the servo on pin 9
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
-  pos = 0;
-  myservo.write(pos);
+  y_pos = 0;
+  myservo.write(y_pos);
 }
 
 void loop() {
@@ -40,14 +43,14 @@ void loop() {
           x_error = x_error_str.toInt();
           y_error = y_error_str.toInt();  
 
-          if ((y_error > 100) && (pos < pos_max)) {
-              pos += speed;
-              myservo.write(pos);
+          if ((y_error > 100) && (y_pos < y_pos_max)) {
+              y_pos += y_speed;
+              myservo.write(y_pos);
               delay(15); 
           }
-          else if ((y_error < -100) && (pos > pos_min)) {
-              pos -= speed;
-              myservo.write(pos);
+          else if ((y_error < -100) && (y_pos > y_pos_min)) {
+              y_pos -= y_speed;
+              myservo.write(y_pos);
               delay(15);         
           }
         } 
@@ -56,3 +59,5 @@ void loop() {
     digitalWrite(LED_BUILTIN, LOW);
   }
 }
+
+

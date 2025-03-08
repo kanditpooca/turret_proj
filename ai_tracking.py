@@ -3,7 +3,7 @@ import torch
 from ultralytics import YOLO
 import numpy as np
 
-model = YOLO("model.pt")
+model = YOLO("turret_proj/human.pt")
 
 width = 640
 height = 640
@@ -12,7 +12,7 @@ bb = [0,0,0,0]
 sum = 0
 font = cv2.FONT_HERSHEY_DUPLEX
 
-class_list = ['bottle']
+class_list = ['human']
 
 detection_colors = [(0,255,0)]
 
