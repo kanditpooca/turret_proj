@@ -11,6 +11,7 @@ void setup() {
   Serial.begin(9600);
   myServo.attach(9); // Attach the servo to pin 9
   myServo.write(currentPosition); // Initialize servo position
+  delay(2000);
 }
 
 void loop() {
