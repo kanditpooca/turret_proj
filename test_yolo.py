@@ -5,7 +5,7 @@ import numpy as np
 
 def main():
     # Load your trained model
-    model = YOLO("turret_proj/best_human.onnx")  # Load the trained weights
+    model = YOLO("turret_proj/best_human.pt")  # Load the trained weights
     
     # Enable tracking in the model
     model.tracker = "bytetrack.yaml"  # Using ByteTrack algorithm
