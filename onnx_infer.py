@@ -7,7 +7,7 @@ import torch
 # print(torch.cuda.get_device_name(0))  # Should print GPU name
 
 # Load the ONNX model
-onnx_model = ort.InferenceSession("best_human.onnx", providers=['CUDAExecutionProvider'])
+onnx_model = ort.InferenceSession("turret_proj/best_human_jetson.onnx", providers=['CUDAExecutionProvider'])
 
 # Open the webcam
 video_capture = cv2.VideoCapture(0)
